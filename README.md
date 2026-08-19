@@ -43,8 +43,7 @@ ordenamiento o de etiquetado.
 | `src/unir.py` | Une todos los PDFs de una carpeta en uno solo, ordenados por el número final del nombre (o alfabéticamente con `--alphabetic`). |
 | `src/extractor.py` | Extrae campos (FECHA EXP., CONTRATANTE, N.SOPORTE, ID, No. HISTORIA, DIAGNOSTICO, AUTORIZACION, ESPECIALIDAD) de la primera página de cada PDF y exporta un Excel. Usa texto embebido, bloques u OCR en ese orden. |
 | `src/doc_pdf.py` | Convierte todos los `.doc`/`.docx` de la carpeta `documentos/` a PDF en `pdfs/` usando LibreOffice headless. |
-| `src/actualizador.py` | Ajusta un JSON EJE: para consultas cuyo diagnóstico principal es Z001–Z008, fija `finalidadTecnologiaSalud = "11"` y `causaMotivoAtencion = "40"`. Genera una copia. |
-| `src/json_actualizador.py` | Misma lógica de normalización, pero como CLI flexible: acepta un archivo o un directorio completo de JSONs y genera `*_modified.json`. |
+| `src/actualizador.py` | Ajusta un JSON EJE: para consultas cuyo diagnóstico principal es Z001–Z008, fija `finalidadTecnologiaSalud = "11"` y `causaMotivoAtencion = "40"`. Genera una copia. Acepta un archivo o un directorio completo. |
 
 ## Workflow típico
 
@@ -92,7 +91,7 @@ Lote recibido
    de PDFs. Genera `datos_extraidos.xlsx` y archivos `_debug_*` por PDF para
    auditar el método de lectura (embedded / blocks / ocr / none).
 4. **Normalizar JSONs de consultas** — `actualizador.py EJE.JSON` produce
-   `EJE_copia.json`; o `json_actualizador.py -i ruta` (archivo o carpeta) para
+   `EJE_copia.json`; o `actualizador.py -i ruta` (archivo o carpeta) para
    procesar muchos a la vez generando `*_modified.json`.
 5. **Convertir Word a PDF** — coloca los `.doc`/`.docx` en `documentos/` y
    ejecuta `doc_pdf.py`; los PDFs quedan en `pdfs/`.
@@ -122,5 +121,4 @@ facturacion-scripts/
     ├── extractor.py
     ├── doc_pdf.py
     ├── actualizador.py
-    └── json_actualizador.py
 ```

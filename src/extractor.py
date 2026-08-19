@@ -167,7 +167,7 @@ def main():
         excel_path = os.path.join(BASE_DIR, "datos_extraidos.xlsx")
         try:
             df.to_excel(excel_path, index=False)
-            print(f"\n✅ Guardado: {excel_path}")
+            print(f"\nGuardado: {excel_path}")
         except Exception as e:
             errfile = os.path.join(BASE_DIR, "_error_extractor.txt")
             with open(errfile, "w", encoding="utf-8") as f:
