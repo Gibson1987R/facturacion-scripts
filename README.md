@@ -13,6 +13,40 @@ hospital **combinados en un solo archivo**.
 > incluido —ni debe incluir— PDFs de autorizaciones, facturas ni JSONs con
 > datos de pacientes. El NIT de la entidad se lee de una variable de entorno.
 
+## Qué hace, en una ejecución real
+
+![Ejecución del combinador sobre una autorización de ejemplo de 7 páginas](docs/captura.png)
+
+*No hay demo en vivo porque es una herramienta de línea de comandos: la captura
+es una corrida de verdad sobre un PDF de ejemplo generado para la ocasión, sin
+un solo dato real.*
+
+---
+
+## La decisión que vale la pena contar: proponer, no adivinar
+
+La versión obvia de este script adivina: mira el número de páginas, elige el
+reparto que le parece y entrega **un** resultado. Escribí la primera así y la
+tiré, porque **un PDF de 7 páginas admite tres repartos válidos** y el script no
+tiene forma de saber cuál es el correcto: eso está en el contenido del
+documento, no en su tamaño.
+
+Adivinar mal aquí no es un error cualquiera. Un documento mal armado se radica
+ante la EPS, se devuelve semanas después, y a esas alturas nadie recuerda de
+qué autorización venía. **El error silencioso cuesta más que el trabajo
+manual que el script venía a ahorrar.**
+
+Así que el script no decide: **genera todas las opciones válidas** en carpetas
+`opc_1`, `opc_2`, `opc_3`, y quien factura abre las tres y elige en diez
+segundos. La máquina hace lo que sabe hacer —separar y renombrar sin
+equivocarse— y la persona hace lo único que requiere leer el documento.
+
+**Lo que costó:** el proceso no queda automatizado del todo, sigue habiendo un
+humano en el medio. Lo cambié a propósito por que no haya un solo documento mal
+radicado.
+
+---
+
 ## El problema que resuelve
 
 En el hospital, las autorizaciones llegan como un **único PDF combinado** que
