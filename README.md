@@ -15,7 +15,7 @@ hospital **combinados en un solo archivo**.
 
 ## Qué hace, en una ejecución real
 
-![Ejecución del combinador sobre una autorización de ejemplo de 7 páginas](docs/captura.png)
+![Ejecución del combinador sobre una autorización de ejemplo de 7 páginas](assets/captura.png)
 
 *No hay demo en vivo porque es una herramienta de línea de comandos: la captura
 es una corrida de verdad sobre un PDF de ejemplo generado para la ocasión, sin
