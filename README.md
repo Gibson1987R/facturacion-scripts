@@ -9,8 +9,9 @@ hospital **combinados en un solo archivo**.
 > archivo (Orden, OPF, PDE, CRC) y había que separarlos a mano, página por
 > página. Este script automatiza esa tarea.
 
-> **Uso interno.** Repositorio privado. No incluye ni debe incluir datos de
-> pacientes, facturas ni JSONs reales.
+> **Sin datos reales.** Este repositorio contiene solo código. Nunca ha
+> incluido —ni debe incluir— PDFs de autorizaciones, facturas ni JSONs con
+> datos de pacientes. El NIT de la entidad se lee de una variable de entorno.
 
 ## El problema que resuelve
 
@@ -37,8 +38,8 @@ equivocarse de orden o de mezclar autorizaciones.
    válidas** de reparto entre ORDEN / OPF / PDE / CRC.
 4. Para cada combinación válida crea una subcarpeta `opc_N` con los
    documentos reconstruidos y **renombrados**:
-   `ORDEN.pdf`, `OPF_842000004_ECA.pdf`, `PDE_842000004_ECA.pdf`,
-   `CRC_842000004_ECA.pdf`.
+   `ORDEN.pdf`, `OPF_<NIT>_ECA.pdf`, `PDE_<NIT>_ECA.pdf`,
+   `CRC_<NIT>_ECA.pdf`.
 5. Deja la carpeta `opc_N` correcta lista para revisar y usar.
 
 Los PDFs de exactamente **4 páginas** usan la única combinación directa
@@ -86,9 +87,9 @@ autorizacion_2025-11-03.pdf        ← PDF original combinado
 └── autorizacion_2025-11-03/        ← carpeta generada
     ├── opc_1/
     │   ├── ORDEN.pdf
-    │   ├── OPF_842000004_ECA.pdf
-    │   ├── PDE_842000004_ECA.pdf
-    │   └── CRC_842000004_ECA.pdf
+    │   ├── OPF_<NIT>_ECA.pdf
+    │   ├── PDE_<NIT>_ECA.pdf
+    │   └── CRC_<NIT>_ECA.pdf
     ├── opc_2/
     │   └── … (si hay más de una combinación válida)
 ```
@@ -101,9 +102,10 @@ autorizacion_2025-11-03.pdf        ← PDF original combinado
 ## Notas
 
 - Procesa los `.pdf` del **directorio actual** (no recursivo).
-- El identificador `842000004` / `_ECA` en los nombres de salida es el código
-  del prestador del flujo; está integrado en el script porque es parte del
-  estándar interno de archivo.
+- El identificador de los nombres de salida es el **NIT de la entidad**, parte
+  del estándar interno de archivo. Se lee de la variable de entorno
+  `NIT_ENTIDAD` (`export NIT_ENTIDAD=900123456`); si no se define, usa
+  `000000000`.
 - Para PDFs de más de 10 páginas no hay combinación definida: el script los
   divide en páginas pero no genera opciones.
 - **Nunca subir** archivos de datos (`.pdf`, `.xlsx`, `.json`) a este

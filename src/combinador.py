@@ -2,36 +2,42 @@ import os
 import fitz  # PyMuPDF
 from pathlib import Path
 
+# NIT de la entidad, que forma parte del nombre de los archivos generados
+# (OPF_<NIT>_ECA.pdf, etc.). Cada institución tiene el suyo, así que se lee del
+# entorno y no va escrito en el código:
+#     export NIT_ENTIDAD=900123456
+NIT = os.environ.get("NIT_ENTIDAD", "000000000")
+
 # Definición de combinaciones por número de páginas
 combinaciones = {
     4: [
-        {"ORDEN": [1], "OPF_842000004_ECA": [2], "PDE_842000004_ECA": [3], "CRC_842000004_ECA": [4]}
+        {"ORDEN": [1], f"OPF_{NIT}_ECA": [2], f"PDE_{NIT}_ECA": [3], f"CRC_{NIT}_ECA": [4]}
     ],
     5: [
-        {"ORDEN": [1], "OPF_842000004_ECA": [2], "PDE_842000004_ECA": [3, 4], "CRC_842000004_ECA": [5]},
-        {"ORDEN": [1], "OPF_842000004_ECA": [2, 3], "PDE_842000004_ECA": [4], "CRC_842000004_ECA": [5]}
+        {"ORDEN": [1], f"OPF_{NIT}_ECA": [2], f"PDE_{NIT}_ECA": [3, 4], f"CRC_{NIT}_ECA": [5]},
+        {"ORDEN": [1], f"OPF_{NIT}_ECA": [2, 3], f"PDE_{NIT}_ECA": [4], f"CRC_{NIT}_ECA": [5]}
     ],
     6: [
-        {"ORDEN": [1], "OPF_842000004_ECA": [2], "PDE_842000004_ECA": [3, 4, 5], "CRC_842000004_ECA": [6]},
-        {"ORDEN": [1], "OPF_842000004_ECA": [2, 3], "PDE_842000004_ECA": [4, 5], "CRC_842000004_ECA": [6]},
-        {"ORDEN": [1], "OPF_842000004_ECA": [2, 3, 4], "PDE_842000004_ECA": [5], "CRC_842000004_ECA": [6]}
+        {"ORDEN": [1], f"OPF_{NIT}_ECA": [2], f"PDE_{NIT}_ECA": [3, 4, 5], f"CRC_{NIT}_ECA": [6]},
+        {"ORDEN": [1], f"OPF_{NIT}_ECA": [2, 3], f"PDE_{NIT}_ECA": [4, 5], f"CRC_{NIT}_ECA": [6]},
+        {"ORDEN": [1], f"OPF_{NIT}_ECA": [2, 3, 4], f"PDE_{NIT}_ECA": [5], f"CRC_{NIT}_ECA": [6]}
     ],
     7: [
-        {"ORDEN": [1], "OPF_842000004_ECA": [2], "PDE_842000004_ECA": [3, 4, 5, 6], "CRC_842000004_ECA": [7]},
-        {"ORDEN": [1], "OPF_842000004_ECA": [2, 3], "PDE_842000004_ECA": [4, 5, 6], "CRC_842000004_ECA": [7]},
-        {"ORDEN": [1], "OPF_842000004_ECA": [2, 3, 4], "PDE_842000004_ECA": [5, 6], "CRC_842000004_ECA": [7]}
+        {"ORDEN": [1], f"OPF_{NIT}_ECA": [2], f"PDE_{NIT}_ECA": [3, 4, 5, 6], f"CRC_{NIT}_ECA": [7]},
+        {"ORDEN": [1], f"OPF_{NIT}_ECA": [2, 3], f"PDE_{NIT}_ECA": [4, 5, 6], f"CRC_{NIT}_ECA": [7]},
+        {"ORDEN": [1], f"OPF_{NIT}_ECA": [2, 3, 4], f"PDE_{NIT}_ECA": [5, 6], f"CRC_{NIT}_ECA": [7]}
     ],
     8: [
-        {"ORDEN": [1], "OPF_842000004_ECA": [2], "PDE_842000004_ECA": [3, 4, 5, 6, 7], "CRC_842000004_ECA": [8]},
-        {"ORDEN": [1], "OPF_842000004_ECA": [2, 3], "PDE_842000004_ECA": [4, 5, 6, 7], "CRC_842000004_ECA": [8]},
-        {"ORDEN": [1], "OPF_842000004_ECA": [2, 3, 4], "PDE_842000004_ECA": [5, 6, 7], "CRC_842000004_ECA": [8]}
+        {"ORDEN": [1], f"OPF_{NIT}_ECA": [2], f"PDE_{NIT}_ECA": [3, 4, 5, 6, 7], f"CRC_{NIT}_ECA": [8]},
+        {"ORDEN": [1], f"OPF_{NIT}_ECA": [2, 3], f"PDE_{NIT}_ECA": [4, 5, 6, 7], f"CRC_{NIT}_ECA": [8]},
+        {"ORDEN": [1], f"OPF_{NIT}_ECA": [2, 3, 4], f"PDE_{NIT}_ECA": [5, 6, 7], f"CRC_{NIT}_ECA": [8]}
     ],
     9: [
-        {"ORDEN": [1], "OPF_842000004_ECA": [2, 3, 4], "PDE_842000004_ECA": [5, 6, 7, 8], "CRC_842000004_ECA": [9]},
-        {"ORDEN": [1], "OPF_842000004_ECA": [2, 3], "PDE_842000004_ECA": [4, 5, 6, 7, 8], "CRC_842000004_ECA": [9]}
+        {"ORDEN": [1], f"OPF_{NIT}_ECA": [2, 3, 4], f"PDE_{NIT}_ECA": [5, 6, 7, 8], f"CRC_{NIT}_ECA": [9]},
+        {"ORDEN": [1], f"OPF_{NIT}_ECA": [2, 3], f"PDE_{NIT}_ECA": [4, 5, 6, 7, 8], f"CRC_{NIT}_ECA": [9]}
     ],
     10: [
-        {"ORDEN": [1], "OPF_842000004_ECA": [2, 3, 4], "PDE_842000004_ECA": [5, 6, 7, 8, 9], "CRC_842000004_ECA": [10]}
+        {"ORDEN": [1], f"OPF_{NIT}_ECA": [2, 3, 4], f"PDE_{NIT}_ECA": [5, 6, 7, 8, 9], f"CRC_{NIT}_ECA": [10]}
     ]
 }
 
@@ -70,7 +76,7 @@ def procesar_pdfs_en_directorio():
             if total_paginas in combinaciones:
                 opciones = combinaciones[total_paginas]
                 if total_paginas == 4:
-                    etiquetas = ["ORDEN", "OPF_842000004_ECA", "PDE_842000004_ECA", "CRC_842000004_ECA"]
+                    etiquetas = ["ORDEN", f"OPF_{NIT}_ECA", f"PDE_{NIT}_ECA", f"CRC_{NIT}_ECA"]
                     for i, etiqueta in enumerate(etiquetas):
                         destino = carpeta / f"{etiqueta}.pdf"
                         paginas[i].rename(destino)
